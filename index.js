@@ -11,15 +11,6 @@ const blacklist = [];
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res, next) => {
-  res.json({ message: "Tudo ok por aqui!" });
-})
-
-app.get('/membros', verifyJWT, (req, res, next) => {
-  console.log("Retornando as pessoas cadastradas!");
-  res.json([{ id: 1, nome: 'joison' }]);
-})
-
 function verifyJWT(req, res, next) {
   var token = req.headers['x-access-token'];
   if (!token) return res.status(401).json({ auth: false, message: 'No token provided.' });
@@ -36,25 +27,93 @@ function verifyJWT(req, res, next) {
   });
 }
 
-app.post('/login', (req, res, next) => {
+//
+// POST - SIGNIN
+//
+app.post('/signin', (req, res, next) => {
   //esse teste abaixo deve ser feito no seu banco de dados
   console.log(req.body);
-  if (req.body.user === 'joison' && req.body.pwd === 'netflix') {
+  if (req.body.email === 'joison' && req.body.senha === 'netflix') {
     //auth ok
     const userId = 1; //esse id viria do banco de dados
     const token = jwt.sign({ userId }, process.env.SECRET, {
       expiresIn: 300 // expires in 5min
     });
-    return res.json({ auth: true, token: token });
+    return res.json({ id: userId, token: token });
   }
 
   res.status(401).json({ message: 'Login inválido!' });
 })
+//
+// FIM POST - SIGNIN
+//
 
-app.post('/logout', function (req, res) {
-  blacklist.push(req.headers['x-access-token']);
-  res.json({ auth: false, token: null });
+//
+// POST - SIGNUP
+//
+
+app.post('/signup', (req, res, next) => {
+  
+  // Fazer cadastro no banco de dados 
+
+  const { user, name, email, cpf, senha } = req.body;
+
+  // Mudar quando realizar o cadastro no banco
+  userId = 0;
+
+  return res.json({ id: userId, name, email });
+
 })
+
+//
+// FIM POST - SIGNUP
+//
+
+//
+// POST - SIGNOUT
+//
+
+app.post('/logout', verifyJWT, function (req, res) {
+  blacklist.push(req.headers['x-access-token']);
+  res.json({ token: null });
+})
+
+//
+// FIM POST - SIGNOUT
+//
+
+//
+// GET - GetMarkers
+//
+
+app.get('/getmarkers', verifyJWT, (req, res, next) => {
+  
+  // lista de marcadores que veio do banco de dados
+  marcadores = {};
+
+  res.json(marcadores);
+})
+
+//
+// FIM GET - GetMarkers
+//
+
+//
+// POST - CHECKIN
+//
+
+app.post('/checkin', verifyJWT, (req, res, next) => {
+
+  const { latitude, longitude } = req.body;
+
+  // cadastra latitude e longitude no banco
+
+  res.json({ boolean: true });
+})
+
+//
+// FIM POST - CHECKIN
+//
 
 const server = http.createServer(app);
 server.listen(3000);
