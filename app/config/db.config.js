@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: "localhost",
+  HOST: process.env.DBHOST,
   USER: "postgres",
   PASSWORD: "postgres",
   // DB: "covidb",

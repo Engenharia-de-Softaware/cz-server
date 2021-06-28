@@ -24,8 +24,8 @@ exports.insert = async (req, res) => {
   // Save User in the database
   try {
     console.log(user);
-    const data = await User.create(user);
-    res.send(data);
+    await User.create(user);
+    res.send(user);
   } catch (error) {
     res.status(500).send({
       message: "Some error occurred while creating the User."

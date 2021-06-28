@@ -1,0 +1,46 @@
+version: '3.7'
+
+services: 
+  db:
+    image: postgres
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - server-db:/var/lib/postgresql/data
+    restart: on-failure
+  
+  rabbitmq:
+    image: "rabbitmq:3.7-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: on-failure
+    
+  
+  server:
+    build: .    
+    command: npm run dev
+    
+    ports: 
+      - "8080:8080"
+    
+    volumes: 
+      - .:/usr/app
+    
+    environment: 
+      - SECRET=aukifshgausildubifabui
+      - DBHOST=db
+      - RMQHOST=rabbitmq
+    
+    depends_on: 
+      - db
+      - rabbitmq
+      
+    restart: on-failure
+  
+volumes: 
+  server-db:
+  
