@@ -11,18 +11,20 @@ exports.validJWTNeeded = (req, res, next) => {
         }
         const token = authorization [1];
         req.jwt = jwt.verify(token, jwtSecret);
+
+        next();
   
-        client().lrange('token',0,99999999, (err, reply) => {
-            if(err){
-                console.log(err);
-                return res.status(500).send();
-            }
-            if(reply.indexOf(token) > -1){
-                return res.status(400).send({error: 'Invalid Token'});
-            } else {
-                return next();
-            }
-        });
+        // client().lrange('token',0,99999999, (err, reply) => {
+        //     if(err){
+        //         console.log(err);
+        //         return res.status(500).send();
+        //     }
+        //     if(reply.indexOf(token) > -1){
+        //         return res.status(400).send({error: 'Invalid Token'});
+        //     } else {
+        //         return next();
+        //     }
+        // });
       } catch (err) {
         return res.status(403).send();
       }

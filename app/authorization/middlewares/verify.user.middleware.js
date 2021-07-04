@@ -51,10 +51,10 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
         name: user.name,
         cpf: user.cpf,
       };
-
+      next();    
     }
 
-    next();    
+    
   } catch (error) {
 
     return res.status(400).send({ errors: ['Invalid e-mail or password'] });

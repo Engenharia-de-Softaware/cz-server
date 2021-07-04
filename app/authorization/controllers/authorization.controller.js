@@ -14,7 +14,7 @@ exports.login = (req, res) => {
     const refreshToken = Buffer.from(hash).toString('base64');
 
     
-    const data = req.body;
+    const data = {user:req.body};
 
     data.accessToken = accessToken;
     data.refreshToken = refreshToken;

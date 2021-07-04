@@ -9,10 +9,10 @@ module.exports = (sequelize, Sequelize) => {
           cpf: {
             type: Sequelize.STRING
           },
-          password: {
+          status: {
             type: Sequelize.STRING
           },
-          status: {
+          password: {
             type: Sequelize.STRING
           }
     });

@@ -1,24 +1,69 @@
-const publisherQueue = require('../../queues/publisherQueue');
+const queue = require('../../queues/publisherQueue');
 
-exports.checkIn = (req, res) => {
+exports.checkIn = (req, res, next) => {
   try {
 
-    const { id } = req.params;
-    const { latitude, longitude } = req.body;
-
+    console.log("OIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    
+    
+    const { user_id, latitude, longitude } = req.body;
+    
     const userCheckin = {
-
-      user_id: id,
+      
+      user_id: user_id,
       latitude: latitude,
       longitude: longitude
-
+      
     }
-
-    publisherQueue(userCheckin);
     
-    res.status(200).send(userCheckin);
+    var msg = Buffer.from(typeof userCheckin === 'object'
+            ? JSON.stringify(userCheckin) : userCheckin);
+
+    req.body.msg = msg;
+
+    console.log(msg);
+    console.log("OIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    // await queue(msg);
+    
+    
+    next();
 
     } catch (err) {
+    // console.log("kkkkkkkkkkkkk");
     res.status(500).send({ errors: err });
   }
 };
+
+// exports.publisher = async (req, res) => {
+//   try {
+
+//     console.log("OIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    
+    
+//     const { user_id, latitude, longitude } = req.body;
+    
+//     const userCheckin = {
+      
+//       user_id: user_id,
+//       latitude: latitude,
+//       longitude: longitude
+      
+//     }
+    
+//     var msg = Buffer.from(typeof userCheckin === 'object'
+//             ? JSON.stringify(userCheckin) : userCheckin);
+
+//     req.body.msg = msg;
+
+//     // console.log(msg);
+//     // console.log("OIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+//     // await queue(msg);
+    
+    
+//     res.status(200).send();
+
+//     } catch (err) {
+//     // console.log("kkkkkkkkkkkkk");
+//     res.status(500).send({ errors: err });
+//   }
+// };

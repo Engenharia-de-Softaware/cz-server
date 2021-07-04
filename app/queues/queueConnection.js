@@ -13,7 +13,7 @@ let instance;
 class MessageBroker {
   async init() {
     try {
-      this.connection = await amqplib.connect(`amqp://${process.env.RMQHOST}`);
+      this.connection = await amqplib.connect(`amqp://localhost`);
       this.consumerChannel = await this.connection.createChannel();
       this.publisherChannel = await this.connection.createChannel();
   

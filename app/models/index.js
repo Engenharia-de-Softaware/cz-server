@@ -21,6 +21,8 @@ db.sequelize = sequelize;
 
 db.user = require("./users/create.model")(sequelize, Sequelize);
 db.auth = require("./users/auth.model")(sequelize, Sequelize);
+db.marker = require("./markers/mark.model")(sequelize, Sequelize);
+
 
 
 module.exports = db;
