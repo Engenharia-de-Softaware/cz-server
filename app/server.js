@@ -3,6 +3,8 @@ const cors = require("cors");
 
 const UsersRouter = require('./users/routes.config');
 const AuthorizationRouter = require('./authorization/routes.config');
+const CheckInRouter = require('./checkin/routes.config');
+
 const Consumer = require('./queues/consumerQueue');
 const app = express();
 
@@ -23,6 +25,8 @@ Consumer.connect();
 
 UsersRouter.routesConfig(app);
 AuthorizationRouter.routesConfig(app);
+CheckInRouter.routesConfig(app);
+
 
 
 

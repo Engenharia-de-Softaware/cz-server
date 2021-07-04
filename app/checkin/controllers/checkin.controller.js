@@ -8,7 +8,7 @@ exports.checkIn = (req, res) => {
 
     const userCheckin = {
 
-      id: id,
+      user_id: id,
       latitude: latitude,
       longitude: longitude
 
