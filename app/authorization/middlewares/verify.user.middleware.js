@@ -28,41 +28,42 @@ exports.hasAuthValidFields = (req, res, next) => {
 };
 
 exports.isPasswordAndUserMatch = async (req, res, next) => {
-
   let query;
-  if (req.body.email) query = { email: req.body.email };
-  if (req.body.cpf) query = { cpf: req.body.cpf };
+  const { email } = req.body;
+  if (email) query = { email };
+  console.log(`Ema: ${email}`);
+  // if (req.body.cpf) query = { cpf: req.body.cpf };
 
   try {
-    const user = await Auth.findOne(query);
-    console.log(user);
-  
+    const user = await Auth.findOne({ where: { email: email } });
+    console.log(`User: ${user}`);
+
     if (!user) {
       return res.status(404).send({});
     }
-  
-    const passwordFields = user.password.split('$');
+
+    const passwordFields = user.password.split("$");
     const salt = passwordFields[0];
-    const hash = crypto.createHmac('sha512', salt).update(req.body.password).digest('base64');
+    const hash = crypto
+      .createHmac("sha512", salt)
+      .update(req.body.password)
+      .digest("base64");
     if (hash === passwordFields[1]) {
       req.body = {
-        userId: user._id,
+        id: user.id,
         email: user.email,
         name: user.name,
         cpf: user.cpf,
       };
 
+      next();
     }
-
-    next();    
-  } catch (error) {
-
-    return res.status(400).send({ errors: ['Invalid e-mail or password'] });
-
     
+    // throw new Error("Invalid e-mail or password");
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ errors: ["Invalid e-mail or password"] });
   }
-
-
 
   // Auth.findOne(query)
   //   .then((user) => {
@@ -90,7 +91,7 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
   //       };
   //       if (user.institution) req.body.institution = user.institution;
   //       if (user.cnpj) req.body.cnpj = user.cnpj;
-	// if (user.client_id) req.body.client_id = user.client_id;
+  // if (user.client_id) req.body.client_id = user.client_id;
 
   //       return next();
   //     }
@@ -100,4 +101,4 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
   //     console.log(err);
   //     return res.status(500).send(err);
   //   });
-};
+};;;;;;;;;;;;

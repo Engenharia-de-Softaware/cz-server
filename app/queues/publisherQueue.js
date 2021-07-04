@@ -1,17 +1,21 @@
 const MessageBroker = require('./queueConnection');
 
+console.log("Entrando aqui");
 
-exports.publisherQueue = async (msg) => {
-    try {
-        const queue = "cz_user_in";
-        const { consumerChannel: channel } = await MessageBroker.connect();
+exports.publisherQueue = async (req, res) => {
+  try {
+    const queue = "cz_user_in";
+    const {   msg   } = req.body;
+    console.log(queue, msg);
+    
+    const { consumerChannel: channel } = await MessageBroker.connect();
+    channel.assertQueue(queue, { durable: false });
+    console.log("Entrei aquo")
 
-        channel.assertQueue(queue, { durable: false });
-        channel.sendToQueue(queue, msg);
+    channel.sendToQueue(queue, msg);
 
-        res.status(200).send();
-        
-      } catch (err) {
-      res.status(500).send({ errors: err });
-    }
-  };
+    res.status(200).send();
+  } catch (err) {
+    res.status(500).send({ errors: err });
+  }
+};

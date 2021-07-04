@@ -5,7 +5,7 @@ const { jwtSecret, jwtOptions } = require('../../common/env.config').env;
 
 exports.login = (req, res) => {
   try {
-    const refreshId = `${req.body.userId}${jwtSecret}`;
+    const refreshId = `${req.body.id}${jwtSecret}`;
     const salt = crypto.randomBytes(16).toString('base64');
     const hash = crypto.createHmac('sha512', salt).update(refreshId).digest('base64');
     req.body.refreshKey = salt;
@@ -14,7 +14,7 @@ exports.login = (req, res) => {
     const refreshToken = Buffer.from(hash).toString('base64');
 
     
-    const data = req.body;
+    const data = { user: req.body };
 
     data.accessToken = accessToken;
     data.refreshToken = refreshToken;

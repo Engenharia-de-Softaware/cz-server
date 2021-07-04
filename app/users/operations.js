@@ -17,7 +17,8 @@ exports.insert = async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     cpf: req.body.cpf,
-    password: req.body.password
+    status: "Good",
+    password: req.body.password,
   };
   // console.log(user);
 
