@@ -1,30 +1,18 @@
-const { marker } = require("../../models");
+const { marker, auth, Sequelize } = require("../../models");
 const Mark = marker;
+const Auth = auth;
+const Op = Sequelize.Op;
 
-exports.getMarkers = (req, res) => {
+
+exports.getMarkers = async (req, res) => {
   try {
 
     let markers_list = [];
-    let user_points = {};
     const query = { status: "infected"};
   
-    const users = await Auth.findAll(query);
+    const users = await Auth.findAll({where:query});
 
-    users.forEach(user => {
-
-      const { id } = user;
-      const users_markers = Mark.findAll({user_id: id}); 
-
-      users_markers.forEach(points => {;
-
-        const { latitude, longitude } = points;
-        const key = `${latitude},${longitude}`;
-
-        user_points[key] += user_points[key] ? user_points[key] += 1 : 1;
-
-      });
-
-    });
+    const user_points = await filter_points(users);
 
     for(let marked_point in user_points){
 
@@ -33,9 +21,42 @@ exports.getMarkers = (req, res) => {
 
     }
   
-    res.status(200).send(markers_list);
+    res.status(200).send(marked_point);
 
   } catch (err) {
     res.status(500).send({ errors: err });
   }
 };
+
+async function filter_points(users){
+
+  try {
+
+    let user_points = {};
+
+    for(let user of users){
+
+      const { id } = user.dataValues;
+      const users_markers = await Mark.findAll({where: {user_id: `${id}`}}); 
+
+      for(let points of users_markers){
+
+        const { latitude, longitude } = points.dataValues;
+        const key = `${latitude},${longitude}`;
+        
+        user_points[key] = user_points[key] ? user_points[key] += 1 : 1;
+        console.log(user_points[key]);
+      
+      }
+    }
+  
+    return user_points;
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+
+
+
+}

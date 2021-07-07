@@ -2,7 +2,7 @@ module.exports = {
   HOST: process.env.DBHOST,
   USER: "postgres",
   PASSWORD: "postgres",
-  // DB: "covidb",
+  DB: "cz_user_dev",
   dialect: "postgres",
   pool: {
     max: 5,

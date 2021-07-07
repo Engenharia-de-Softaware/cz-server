@@ -14,7 +14,8 @@ module.exports = (sequelize, Sequelize) => {
       unique: true
     },
     status: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      defaultValue: "Good"
     },
     password: {
       type: Sequelize.STRING

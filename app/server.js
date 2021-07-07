@@ -4,12 +4,10 @@ const cors = require("cors");
 const UsersRouter = require('./users/routes.config');
 const AuthorizationRouter = require('./authorization/routes.config');
 const CheckInRouter = require('./checkin/routes.config');
-// const MarkersRouter
+const MarkersRouter = require('./markers/routes.config')
 
 const Consumer = require('./queues/consumerQueue');
 const app = express();
-
-
 
 app.use(cors());
 app.use(express.json());
@@ -24,13 +22,10 @@ db.sequelize.sync();
 //   console.log("Drop and re-sync db.");
 // });
 
-
 UsersRouter.routesConfig(app);
 AuthorizationRouter.routesConfig(app);
 CheckInRouter.routesConfig(app);
-
-
-
+MarkersRouter.routesConfig(app);
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

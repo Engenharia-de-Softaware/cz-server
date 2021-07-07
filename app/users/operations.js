@@ -19,11 +19,10 @@ exports.insert = async (req, res) => {
     cpf: req.body.cpf,
     password: req.body.password
   };
-  // console.log(user);
-
+  
   // Save User in the database
   try {
-    console.log(user);
+    // console.log(user);
     await User.create(user);
     res.send(user);
   } catch (error) {

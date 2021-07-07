@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const CheckPoint = sequelize.define("check_in", {
+    const CheckPoint = sequelize.define("user_check_in", {
           user_id: {
             type: Sequelize.STRING
           },
@@ -9,6 +9,11 @@ module.exports = (sequelize, Sequelize) => {
           longitude: {
             type: Sequelize.STRING
           },
+          
+    },{
+      timestamps: false,
+      createdAt: false,
+      updatedAt: false,
     }); 
     return CheckPoint;
 };

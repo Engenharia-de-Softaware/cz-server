@@ -35,7 +35,7 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
 
   try {
     const user = await Auth.findOne(query);
-    console.log(user);
+    // console.log(user);
   
     if (!user) {
       return res.status(404).send({});
