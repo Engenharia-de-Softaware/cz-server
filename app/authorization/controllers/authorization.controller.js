@@ -15,7 +15,6 @@ exports.login = (req, res) => {
 
     
     const data = {user:req.body};
-
     data.accessToken = accessToken;
     data.refreshToken = refreshToken;
     res.status(200).send(data);

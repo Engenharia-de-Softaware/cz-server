@@ -30,12 +30,12 @@ exports.hasAuthValidFields = (req, res, next) => {
 exports.isPasswordAndUserMatch = async (req, res, next) => {
 
   let query;
+
   if (req.body.email) query = { email: req.body.email };
-  // if (req.body.cpf) query = { cpf: req.body.cpf };
+  if (req.body.cpf) query = { cpf: req.body.cpf };
 
   try {
     const user = await Auth.findOne({where: query});
-    // console.log(user);
   
     if (!user) {
       return res.status(404).send({});
