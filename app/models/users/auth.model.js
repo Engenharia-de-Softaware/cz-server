@@ -15,7 +15,14 @@ module.exports = (sequelize, Sequelize) => {
           password: {
             type: Sequelize.STRING
           }
-    });
+    },
+    {
+      timestamps: true,
+      createdAt: "inserted_at",
+      updatedAt: "updated_at",
+    } 
+    
+    );
       
         
     return Auth;
