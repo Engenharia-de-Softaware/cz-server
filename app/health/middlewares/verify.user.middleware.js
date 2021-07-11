@@ -46,7 +46,7 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
     const hash = crypto.createHmac('sha512', salt).update(req.body.password).digest('base64');
     if (hash === passwordFields[1]) {
       req.body = {
-        userId: user.id,
+        userId: user._id,
         email: user.email,
         name: user.name,
         cpf: user.cpf,

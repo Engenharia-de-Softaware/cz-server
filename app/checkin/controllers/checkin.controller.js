@@ -2,6 +2,7 @@ exports.checkIn = (req, res, next) => {
   try {
 
     const { user_id, latitude, longitude } = req.body;
+    req.body.queue = "cz_user_in";
     
     const userCheckin = {
       

@@ -5,6 +5,7 @@ const UsersRouter = require('./users/routes.config');
 const AuthorizationRouter = require('./authorization/routes.config');
 const CheckInRouter = require('./checkin/routes.config');
 const MarkersRouter = require('./markers/routes.config')
+const HealthRouter = require('./health/routes.config')
 
 const Consumer = require('./queues/consumerQueue');
 const app = express();
@@ -26,6 +27,7 @@ UsersRouter.routesConfig(app);
 AuthorizationRouter.routesConfig(app);
 CheckInRouter.routesConfig(app);
 MarkersRouter.routesConfig(app);
+HealthRouter.routesConfig(app);
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

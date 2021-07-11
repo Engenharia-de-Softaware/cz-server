@@ -2,13 +2,13 @@ const MessageBroker = require('./queueConnection');
 
 
 exports.publisherQueue = async(req, res) => {
-  // console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
-    try {
-        const queue = "cz_user_in";
+
+  try {
+        const { queue } = req.body;
         const { consumerChannel: channel } = await MessageBroker.connect();
 
 
-        // console.log(channel);
+        console.log(queue);
         channel.assertQueue(queue, { durable: false });
         channel.sendToQueue(queue, req.body.msg);
 
